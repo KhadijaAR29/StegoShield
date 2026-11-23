@@ -60,11 +60,6 @@ analysis.detector.detect(image_path) -> {
 
 Images are always handled as RGB `uint8` NumPy arrays of shape (H, W, 3). Output is always PNG.
 
-## Team workflow
 
-1. Never commit directly to `main`. Work on your own branch: `khadija/core`, `ayesha/analysis`.
-2. Commit small and often. Pull `main` before you start each day: `git pull origin main`.
-3. Open a Pull Request on GitHub, the other person reviews and merges.
-4. Only edit files you own. If you need a change in the other person's file, message them.
 
 See `TASKS.md` for the full task split and timeline.
