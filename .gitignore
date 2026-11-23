@@ -1,0 +1,12 @@
+venv/
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.pytest_cache/
+.vscode/
+.DS_Store
+
+# generated images (keep the folders, not the big files)
+data/stego_images/*
+!data/stego_images/.gitkeep
