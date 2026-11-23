@@ -3,6 +3,15 @@ extract.py  --  OWNER: Khadija
 Read hidden bits back out of a stego PNG and decrypt them.
 """
 
+import numpy as np
+from PIL import Image
+
+from stego import crypto, utils
+from stego.embed import get_positions
+
+# smallest possible encrypted payload: salt + nonce + tag (empty message)
+MIN_PAYLOAD_BYTES = crypto.SALT_SIZE + crypto.NONCE_SIZE + crypto.TAG_SIZE
+
 
 def extract_message(stego_path: str, password: str, mode: str = "random") -> str:
     """
@@ -13,4 +22,30 @@ def extract_message(stego_path: str, password: str, mode: str = "random") -> str
 
     Raises ValueError on wrong password / tampered data / no valid hidden data.
     """
-    raise NotImplementedError
+    image = np.array(Image.open(stego_path).convert("RGB"), dtype=np.uint8)
+    flat = image.flatten()
+
+    if flat.size < utils.HEADER_BITS:
+        raise ValueError("Image is too small to contain hidden data")
+
+    # 1) length header
+    header_pos = get_positions(flat.size, utils.HEADER_BITS, password, mode)
+    header_bits = flat[header_pos] & 1
+    length = int.from_bytes(utils.bits_to_bytes(header_bits), "big")
+
+    # A wrong password in random mode reads garbage here, so check it is sane
+    total_bits = utils.HEADER_BITS + 8 * length
+    if length < MIN_PAYLOAD_BYTES or total_bits > flat.size:
+        raise ValueError("No hidden data found, or wrong password")
+
+    # 2) payload
+    positions = get_positions(flat.size, total_bits, password, mode)
+    payload_bits = flat[positions[utils.HEADER_BITS:]] & 1
+    payload = utils.bits_to_bytes(payload_bits)
+
+    # 3) decrypt (raises ValueError if the password is wrong or data changed)
+    plaintext = crypto.decrypt(payload, password)
+    try:
+        return plaintext.decode("utf-8")
+    except UnicodeDecodeError:
+        raise ValueError("Decrypted data is not valid text")
