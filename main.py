@@ -37,7 +37,10 @@ def main():
         print(embed_message(args.cover, args.out, args.message, args.password, args.mode))
     elif args.command == "extract":
         from stego.extract import extract_message
-        print(extract_message(args.stego, args.password, args.mode))
+        try:
+            print(extract_message(args.stego, args.password, args.mode))
+        except ValueError as e:
+            print(f"Error: {e}")
     elif args.command == "detect":
         from analysis.detector import detect
         print(detect(args.image))
