@@ -1,0 +1,7 @@
+mode,target_size,images,mean_mse,mean_psnr_db,min_psnr_db,mean_embed_seconds,mean_extract_seconds,all_extracts_ok
+sequential,10%,20,0.05,61.14,61.11,0.311,0.245,True
+sequential,25%,20,0.125,57.16,57.15,0.302,0.253,True
+sequential,50%,20,0.25,54.15,54.14,0.302,0.26,True
+random,10%,20,0.05,61.14,61.11,0.45,0.546,True
+random,25%,20,0.125,57.16,57.14,0.445,0.528,True
+random,50%,20,0.2499,54.15,54.12,0.441,0.54,True
