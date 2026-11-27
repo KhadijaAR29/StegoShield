@@ -6,30 +6,31 @@ have to wait for Khadija's embed code.
 
 ## Khadija: Hiding side (core + interface)
 
-- [ ] `stego/crypto.py`: PBKDF2 key + AES-GCM encrypt/decrypt, reject wrong password
-- [ ] `stego/utils.py`: bytes<->bits, 32-bit length header, capacity check
-- [ ] `stego/embed.py`: LSB embed, `sequential` and `random` modes (password-seeded)
-- [ ] `stego/extract.py`: read header, read bits, decrypt
-- [ ] `stego/metrics.py`: PSNR and MSE
-- [ ] `main.py`: command-line interface
-- [ ] Tests: `test_crypto.py`, `test_embed_extract.py` all passing
-- [ ] `gui/app.py`: Embed / Extract / Detect tabs (after core works)
+- [x] `stego/crypto.py`: PBKDF2 key + AES-GCM encrypt/decrypt, reject wrong password
+- [x] `stego/utils.py`: bytes<->bits, 32-bit length header, capacity check
+- [x] `stego/embed.py`: LSB embed, `sequential` and `random` modes (password-seeded)
+- [x] `stego/extract.py`: read header, read bits, decrypt
+- [x] `stego/metrics.py`: PSNR and MSE
+- [x] `main.py`: command-line interface
+- [x] Tests: `test_crypto.py`, `test_embed_extract.py` all passing
+- [x] `gui/app.py`: Embed / Extract / Detect tabs (after core works)
+- [x] `experiments/psnr_experiment.py`: MSE, PSNR and speed at 10%, 25%, 50% of capacity
 
 ## Ayesha: Detection side (steganalysis + experiments)
 
-- [ ] Collect 10-20 cover PNGs of different sizes/types into `data/cover_images/`
-- [ ] `analysis/chi_square.py`: chi-square pairs test
-- [ ] `analysis/histogram.py`: LSB ratio, pair difference, histogram plots
-- [ ] `analysis/detector.py`: combine tests, choose thresholds, return the dict from README
-- [ ] Tests: `test_detector.py` passing
-- [ ] `notebooks/analysis.ipynb`: detection accuracy on clean vs stego, sequential vs random, different message lengths
-- [ ] Graphs and tables into `results/`
+- [x] Collect 10-20 cover PNGs of different sizes/types into `data/cover_images/`
+- [x] `analysis/chi_square.py`: chi-square pairs test
+- [x] `analysis/histogram.py`: LSB ratio, pair difference, histogram plots
+- [x] `analysis/detector.py`: combine tests, choose thresholds, return the dict from README
+- [x] Tests: `test_detector.py` passing
+- [x] `notebooks/analysis.ipynb`: detection accuracy on clean vs stego, sequential vs random, different message lengths
+- [x] Graphs and tables into `results/`
 
 ## Shared
 
-- [ ] Integration: once both parts are merged, generate real stego images with `embed_message` and rerun the notebook
-- [ ] `docs/architecture.png`: embed / extract / detect flow diagram (Khadija draws, Ayesha reviews)
-- [ ] `docs/report.pdf`: Khadija writes sections on crypto, embedding, GUI, PSNR/MSE. Ayesha writes steganalysis, experiments, results. Both write the security analysis (LSB weakness against JPEG/resize, limits of detection).
+- [x] Integration: once both parts are merged, generate real stego images with `embed_message` and rerun the notebook
+- [x] `docs/architecture.png`: embed / extract / detect flow diagram
+- [x] Documentation: architecture document and security analysis document
 
 ## Timeline suggestion
 
