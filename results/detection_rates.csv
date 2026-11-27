@@ -1,0 +1,5 @@
+size,sequential detected %,random detected %
+10%,75.0,5.0
+25%,80.0,10.0
+50%,95.0,70.0
+clean (false positives),0.0,0.0
