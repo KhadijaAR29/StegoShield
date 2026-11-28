@@ -12,8 +12,7 @@ from stego.embed import get_positions
 # smallest possible encrypted payload: salt + nonce + tag (empty message)
 MIN_PAYLOAD_BYTES = crypto.SALT_SIZE + crypto.NONCE_SIZE + crypto.TAG_SIZE
 
-
-def extract_message(stego_path: str, password: str, mode: str = "random") -> str:
+def _extract(stego_path: str, password: str, mode: str) -> str:
     """
     1. load stego PNG
     2. read the 32-bit length header (positions via embed.get_positions)
@@ -45,7 +44,34 @@ def extract_message(stego_path: str, password: str, mode: str = "random") -> str
 
     # 3) decrypt (raises ValueError if the password is wrong or data changed)
     plaintext = crypto.decrypt(payload, password)
+        try:
+        plaintext = crypto.decrypt(payload, password)
+        except ValueError:
+            if mode == "random":
+                raise ValueError("Hidden data was found, but it is damaged. "
+                                 "The image was edited after embedding.")
+            raise ValueError("Hidden data was found, but it could not be decrypted. "
+                             "The password is wrong, or the image was edited.")
     try:
         return plaintext.decode("utf-8")
     except UnicodeDecodeError:
         raise ValueError("Decrypted data is not valid text")
+
+
+
+
+def extract_message(stego_path: str, password: str, mode: str = "random") -> str:
+    """Extract the message. If it fails, check whether the other mode works,
+    only to tell the user they picked the wrong mode."""
+    try:
+        return _extract(stego_path, password, mode)
+    except ValueError as first_error:
+        other = "sequential" if mode == "random" else "random"
+        try:
+            _extract(stego_path, password, other)
+        except ValueError:
+            raise first_error from None
+        raise ValueError(
+            f"Wrong embedding mode: this message was hidden in '{other}' mode, "
+            f"not '{mode}' mode. Select '{other}' and try again."
+        ) from None
