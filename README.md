@@ -67,6 +67,13 @@ streamlit run gui/app.py
 
 A browser tab opens with three tabs: **Embed**, **Extract** and **Detect**.
 
+If the app does not open on your computer, run it in Google Colab instead:
+
+1. Open `notebooks/run_in_colab.ipynb` in Google Colab.
+2. Run the cells in order: upload and unzip, install packages, tests, then the Cloudflare cell.
+3. Keep the Cloudflare cell last, because it runs until you stop it.
+4. Open the `trycloudflare.com` link it prints. The app opens with the Embed, Extract and Detect tabs.
+
 ### Tests
 
 ```powershell
