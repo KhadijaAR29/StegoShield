@@ -43,14 +43,15 @@ def _extract(stego_path: str, password: str, mode: str) -> str:
     payload = utils.bits_to_bytes(payload_bits)
 
     # 3) decrypt (raises ValueError if the password is wrong or data changed)
-    try:
     plaintext = crypto.decrypt(payload, password)
-    except ValueError:
-        if mode == "random":
-            raise ValueError("Hidden data was found, but it is damaged. "
-                             "The image was edited after embedding.")
-        raise ValueError("Hidden data was found, but it could not be decrypted. "
-                         "The password is wrong, or the image was edited.")
+        try:
+        plaintext = crypto.decrypt(payload, password)
+        except ValueError:
+            if mode == "random":
+                raise ValueError("Hidden data was found, but it is damaged. "
+                                 "The image was edited after embedding.")
+            raise ValueError("Hidden data was found, but it could not be decrypted. "
+                             "The password is wrong, or the image was edited.")
     try:
         return plaintext.decode("utf-8")
     except UnicodeDecodeError:
